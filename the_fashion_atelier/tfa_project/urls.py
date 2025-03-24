@@ -1,5 +1,5 @@
 """
-URL configuration for tfa_project project.
+URL configuration for the_fashion_atelier project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -21,7 +21,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 def test_view(request):
-    return HttpResponse("TFA website is working!")
+    return HttpResponse("The Fashion Atelier website is working!")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
