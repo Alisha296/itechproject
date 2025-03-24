@@ -26,7 +26,7 @@ def test_view(request):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test/', test_view, name='test'),
-    path('', include('clothes.urls')),
+    path('', include('the_fashion_atelier.clothes.urls')),
 ]
 
 # Add static and media urls for development
