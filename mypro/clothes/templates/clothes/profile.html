@@ -1,0 +1,208 @@
+{% extends 'clothes/base.html' %}
+{% load static %}
+
+{% block title %}My Profile - The Fashion Atelier{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <!-- Profile sidebar -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <div class="profile-icon mb-3">
+                        <i class="fas fa-user-circle fa-5x text-gold"></i>
+                    </div>
+                    <h5 class="mb-0">{{ user.get_full_name }}</h5>
+                    <p class="text-muted small">Member since {{ user.date_joined|date:"F Y" }}</p>
+                    <hr>
+                    <div class="list-group list-group-flush">
+                        <a href="{% url 'clothes:user_profile' %}" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-user-cog fa-fw me-2"></i> Profile Settings
+                        </a>
+                        <a href="{% url 'clothes:user_orders' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-shopping-bag fa-fw me-2"></i> My Orders
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-heart fa-fw me-2"></i> Wishlist
+                        </a>
+                        <a href="{% url 'clothes:logout' %}" class="list-group-item list-group-item-action text-danger">
+                            <i class="fas fa-sign-out-alt fa-fw me-2"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-9">
+            <!-- Profile content -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Profile Settings</h4>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <form method="post" class="profile-form">
+                        {% csrf_token %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Account Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ user_form.username.id_for_label }}" class="form-label">Username</label>
+                                    {{ user_form.username }}
+                                    {% if user_form.username.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in user_form.username.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ user_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                    {{ user_form.first_name }}
+                                    {% if user_form.first_name.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in user_form.first_name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                    {{ user_form.last_name }}
+                                    {% if user_form.last_name.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in user_form.last_name.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ user_form.email.id_for_label }}" class="form-label">Email</label>
+                                    {{ user_form.email }}
+                                    {% if user_form.email.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in user_form.email.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Shipping Information</h5>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ profile_form.address.id_for_label }}" class="form-label">Address</label>
+                                    {{ profile_form.address }}
+                                    {% if profile_form.address.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in profile_form.address.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ profile_form.city.id_for_label }}" class="form-label">City</label>
+                                    {{ profile_form.city }}
+                                    {% if profile_form.city.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in profile_form.city.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="{{ profile_form.state.id_for_label }}" class="form-label">State/Province</label>
+                                            {{ profile_form.state }}
+                                            {% if profile_form.state.errors %}
+                                                <div class="invalid-feedback d-block">
+                                                    {% for error in profile_form.state.errors %}
+                                                        {{ error }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="{{ profile_form.zipcode.id_for_label }}" class="form-label">Postal Code</label>
+                                            {{ profile_form.zipcode }}
+                                            {% if profile_form.zipcode.errors %}
+                                                <div class="invalid-feedback d-block">
+                                                    {% for error in profile_form.zipcode.errors %}
+                                                        {{ error }}
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ profile_form.phone.id_for_label }}" class="form-label">Phone Number</label>
+                                    {{ profile_form.phone }}
+                                    {% if profile_form.phone.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in profile_form.phone.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-end mt-4">
+                            <button type="submit" class="btn btn-gold px-4">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-icon {
+        color: var(--gold);
+    }
+    
+    .form-label {
+        font-weight: 500;
+    }
+    
+    .list-group-item.active {
+        background-color: var(--gold);
+        border-color: var(--gold);
+    }
+    
+    .list-group-item-action:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .card-header h4 {
+        color: var(--gold);
+    }
+</style>
+{% endblock %} 

@@ -1,0 +1,199 @@
+{% extends 'clothes/base.html' %}
+
+{% block title %}{{ clothing.name }} - The Fashion Atelier{% endblock %}
+
+{% block content %}
+<!-- Product Detail Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Product Image -->
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 gold-border">
+                    <div class="position-relative">
+                        {% if clothing.image_url %}
+                        <img src="{{ clothing.image_url }}" class="img-fluid rounded-3" alt="{{ clothing.name }}">
+                        {% else %}
+                        <img src="https://via.placeholder.com/600x600" class="img-fluid rounded-3" alt="{{ clothing.name }}">
+                        {% endif %}
+                        {% if clothing.availability_status == 'new' %}
+                        <span class="badge bg-primary position-absolute top-0 end-0 m-3">New</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Info -->
+            <div class="col-md-6">
+                <h1 class="mb-3 gold-text">{{ clothing.name }}</h1>
+                <p class="text-muted mb-3">Category: {{ clothing.get_category_display }}</p>
+                
+                <!-- Price -->
+                <div class="mb-4">
+                    <h3 class="mb-0">${{ clothing.price }}</h3>
+                </div>
+                
+                <!-- Stock Status -->
+                <div class="mb-4">
+                    {% if clothing.availability_status == 'in_stock' %}
+                    <span class="badge bg-success">In Stock</span>
+                    {% elif clothing.availability_status == 'low_stock' %}
+                    <span class="badge bg-warning text-dark">Low Stock</span>
+                    {% elif clothing.availability_status == 'out_of_stock' %}
+                    <span class="badge bg-danger">Out of Stock</span>
+                    {% else %}
+                    <span class="badge bg-info">Coming Soon</span>
+                    {% endif %}
+                </div>
+                
+                <!-- Description -->
+                <div class="mb-4">
+                    <h5 class="gold-text">Description</h5>
+                    <p>{{ clothing.description }}</p>
+                </div>
+                
+                <!-- Size Selection -->
+                <div class="mb-3">
+                    <h5 class="gold-text">Size</h5>
+                    <div class="btn-group" role="group" aria-label="Size selection">
+                        {% for size in clothing.get_sizes_list %}
+                        <input type="radio" class="btn-check" name="size" id="size-{{ size }}" autocomplete="off" {% if forloop.first %}checked{% endif %}>
+                        <label class="btn btn-outline-dark" for="size-{{ size }}">{{ size }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Color Selection -->
+                {% if clothing.get_colors_list %}
+                <div class="mb-3">
+                    <h5 class="gold-text">Color</h5>
+                    <div class="btn-group" role="group" aria-label="Color selection">
+                        {% for color in clothing.get_colors_list %}
+                        <input type="radio" class="btn-check" name="color" id="color-{{ color|lower }}" autocomplete="off" {% if forloop.first %}checked{% endif %}>
+                        <label class="btn btn-outline-dark" for="color-{{ color|lower }}">{{ color }}</label>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Quantity -->
+                <div class="mb-4">
+                    <h5 class="gold-text">Quantity</h5>
+                    <div class="input-group" style="width: 150px;">
+                        <button class="btn btn-outline-dark" type="button" id="decrease-qty">-</button>
+                        <input type="number" class="form-control text-center" value="1" min="1" id="qty">
+                        <button class="btn btn-outline-dark" type="button" id="increase-qty">+</button>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="d-grid gap-2 d-md-flex mb-4">
+                    <form method="post" action="{% url 'add_to_cart' clothing.id %}" class="flex-grow-1">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" id="quantity-input" value="1">
+                        <input type="hidden" name="size" id="size-input" value="{{ clothing.get_sizes_list.0 }}">
+                        <button type="submit" class="btn btn-dark w-100" {% if clothing.availability_status == 'out_of_stock' or clothing.availability_status == 'coming_soon' %}disabled{% endif %}>
+                            <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+                        </button>
+                    </form>
+                    <button class="btn btn-outline-dark">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+                
+                <!-- Additional Info -->
+                <div class="mb-3">
+                    <div class="d-flex flex-wrap gap-3">
+                        <div>
+                            <i class="fas fa-truck text-muted me-2"></i> Free shipping
+                        </div>
+                        <div>
+                            <i class="fas fa-undo text-muted me-2"></i> 30 days return
+                        </div>
+                        <div>
+                            <i class="fas fa-shield-alt text-muted me-2"></i> 2 year warranty
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="mb-4 gold-text">You May Also Like</h2>
+        <div class="row g-4">
+            {% for item in related_items %}
+            <div class="col-md-3">
+                <div class="card h-100 product-card">
+                    <div class="position-relative">
+                        {% if item.image_url %}
+                        <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.name }}">
+                        {% else %}
+                        <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="{{ item.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text text-muted">{{ item.get_category_display }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span>${{ item.price }}</span>
+                            </div>
+                            <div class="product-actions">
+                                <a href="{% url 'clothing_detail' item.id %}" class="btn btn-outline-dark btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No related products found.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Custom JS for Product Detail Page -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Quantity adjustment
+        const qtyInput = document.getElementById('qty');
+        const quantityInput = document.getElementById('quantity-input');
+        const decreaseBtn = document.getElementById('decrease-qty');
+        const increaseBtn = document.getElementById('increase-qty');
+        
+        decreaseBtn.addEventListener('click', function() {
+            const currentValue = parseInt(qtyInput.value);
+            if (currentValue > 1) {
+                qtyInput.value = currentValue - 1;
+                quantityInput.value = currentValue - 1;
+            }
+        });
+        
+        increaseBtn.addEventListener('click', function() {
+            const currentValue = parseInt(qtyInput.value);
+            qtyInput.value = currentValue + 1;
+            quantityInput.value = currentValue + 1;
+        });
+        
+        // Size selection
+        const sizeInputs = document.querySelectorAll('input[name="size"]');
+        const sizeHiddenInput = document.getElementById('size-input');
+        
+        sizeInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (this.checked) {
+                    sizeHiddenInput.value = this.id.replace('size-', '');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %} 

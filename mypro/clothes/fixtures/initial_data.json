@@ -1,0 +1,222 @@
+[
+  {
+    "model": "clothes.clothing",
+    "pk": 1,
+    "fields": {
+      "name": "Classic White T-Shirt",
+      "description": "A minimalist white t-shirt made from premium cotton.",
+      "price": "29.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 2,
+    "fields": {
+      "name": "Black Slim-Fit Jeans",
+      "description": "Modern slim-fit jeans in classic black.",
+      "price": "59.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 3,
+    "fields": {
+      "name": "Navy Blue Blazer",
+      "description": "A tailored navy blue blazer for a sharp look.",
+      "price": "129.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 4,
+    "fields": {
+      "name": "Minimal Leather Sneakers",
+      "description": "Clean and simple white leather sneakers.",
+      "price": "89.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 5,
+    "fields": {
+      "name": "Linen Shirt",
+      "description": "Breathable linen shirt for summer days.",
+      "price": "45.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 6,
+    "fields": {
+      "name": "Little Black Dress",
+      "description": "A timeless black dress for any occasion.",
+      "price": "89.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1551803091-e20673f15770?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 7,
+    "fields": {
+      "name": "Silk Blouse",
+      "description": "Elegant silk blouse in a soft cream color.",
+      "price": "69.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1564257555382-937689138728?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 8,
+    "fields": {
+      "name": "High-Waisted Jeans",
+      "description": "Flattering high-waisted jeans in medium wash.",
+      "price": "59.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 9,
+    "fields": {
+      "name": "Cashmere Sweater",
+      "description": "Soft and warm cashmere sweater in light gray.",
+      "price": "119.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 10,
+    "fields": {
+      "name": "Leather Ankle Boots",
+      "description": "Versatile black leather ankle boots with low heel.",
+      "price": "149.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 11,
+    "fields": {
+      "name": "Minimalist Watch",
+      "description": "Elegant watch with a clean dial and leather strap.",
+      "price": "79.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 12,
+    "fields": {
+      "name": "Wool Coat",
+      "description": "Classic wool coat in charcoal gray.",
+      "price": "189.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1544736779-13d3e52afca3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 13,
+    "fields": {
+      "name": "Striped Shirt",
+      "description": "Blue and white striped button-up shirt.",
+      "price": "49.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1563630423918-b58f07336ac9?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 14,
+    "fields": {
+      "name": "Khaki Chinos",
+      "description": "Versatile khaki chinos for any casual occasion.",
+      "price": "54.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 15,
+    "fields": {
+      "name": "Leather Wallet",
+      "description": "Minimalist leather wallet with card slots.",
+      "price": "39.99",
+      "category": "men",
+      "image_url": "https://images.unsplash.com/photo-1559563458-527698bf5295?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 16,
+    "fields": {
+      "name": "Silk Scarf",
+      "description": "Luxurious silk scarf with geometric pattern.",
+      "price": "49.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1583291277102-98642195ef6a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 17,
+    "fields": {
+      "name": "Wide-Leg Trousers",
+      "description": "Elegant wide-leg trousers in a cream color.",
+      "price": "69.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 18,
+    "fields": {
+      "name": "Oversized Blazer",
+      "description": "Trendy oversized blazer in a beige shade.",
+      "price": "99.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 19,
+    "fields": {
+      "name": "Leather Crossbody Bag",
+      "description": "Minimal leather crossbody bag in tan.",
+      "price": "79.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  },
+  {
+    "model": "clothes.clothing",
+    "pk": 20,
+    "fields": {
+      "name": "Satin Blouse",
+      "description": "Elegant satin blouse with a relaxed fit.",
+      "price": "59.99",
+      "category": "women",
+      "image_url": "https://images.unsplash.com/photo-1533659828870-95ee305cee3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+    }
+  }
+] 

@@ -1,0 +1,375 @@
+{% extends 'clothes/base.html' %}
+
+{% block content %}
+<div class="product-list">
+    <div class="filters">
+        <div class="filter-header">
+            <h2>Filters</h2>
+            <a href="{% url 'clothes:all_products' %}" class="clear-filters">Clear all</a>
+        </div>
+        
+        <div class="filter-section">
+            <h3>Categories</h3>
+            <div class="filter-options">
+                {% for category in categories %}
+                <div class="filter-option">
+                    <a href="{% url 'clothes:products_by_category' category=category %}" 
+                       class="{% if current_category == category %}active{% endif %}">
+                       {{ category|capfirst }}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h3>Price Range</h3>
+            <form method="get" action="{% url 'clothes:all_products' %}" class="price-filter-form">
+                <div class="price-inputs">
+                    <div class="price-input">
+                        <label for="min_price">Min $</label>
+                        <input type="number" name="min_price" id="min_price" value="{{ request.GET.min_price }}" min="0" step="1">
+                    </div>
+                    <div class="price-input">
+                        <label for="max_price">Max $</label>
+                        <input type="number" name="max_price" id="max_price" value="{{ request.GET.max_price }}" min="0" step="1">
+                    </div>
+                </div>
+                <button type="submit" class="apply-price">Apply</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="products-container">
+        <div class="products-header">
+            <h1>{% if current_category %}{{ current_category|capfirst }}{% else %}All Products{% endif %}</h1>
+            <div class="sort-options">
+                <label for="sort">Sort by:</label>
+                <select id="sort" onchange="location = this.value;">
+                    <option value="{% url 'clothes:all_products' %}?sort=name" {% if current_sort == 'name' %}selected{% endif %}>Name A-Z</option>
+                    <option value="{% url 'clothes:all_products' %}?sort=-name" {% if current_sort == '-name' %}selected{% endif %}>Name Z-A</option>
+                    <option value="{% url 'clothes:all_products' %}?sort=price" {% if current_sort == 'price' %}selected{% endif %}>Price Low to High</option>
+                    <option value="{% url 'clothes:all_products' %}?sort=-price" {% if current_sort == '-price' %}selected{% endif %}>Price High to Low</option>
+                </select>
+            </div>
+        </div>
+        
+        {% if products %}
+            <div class="products-grid">
+                {% for product in products %}
+                <div class="product-card">
+                    <a href="{% url 'clothes:product_detail' product.id %}">
+                        <div class="product-image">
+                            {% if product.image_url %}
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                            {% else %}
+                                <div class="no-image">No image</div>
+                            {% endif %}
+                        </div>
+                        <div class="product-info">
+                            <h3>{{ product.name }}</h3>
+                            <p class="product-category">{{ product.category|capfirst }}</p>
+                            <p class="product-price">${{ product.price|floatformat:2 }}</p>
+                        </div>
+                    </a>
+                    <button class="add-to-cart-btn" data-product-id="{{ product.id }}">Add to Cart</button>
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% if is_paginated %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1{% if current_sort %}&sort={{ current_sort }}{% endif %}">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}{% if current_sort %}&sort={{ current_sort }}{% endif %}">previous</a>
+                    {% endif %}
+            
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+            
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}{% if current_sort %}&sort={{ current_sort }}{% endif %}">next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}{% if current_sort %}&sort={{ current_sort }}{% endif %}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+            
+        {% else %}
+            <div class="no-products">
+                <p>No products found. Try adjusting your filters.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .product-list {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+        .product-list {
+            grid-template-columns: 1fr;
+        }
+    }
+    .filters {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+        align-self: start;
+    }
+    .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .filter-header h2 {
+        margin: 0;
+        font-size: 18px;
+    }
+    .clear-filters {
+        font-size: 14px;
+        color: #666;
+        text-decoration: none;
+    }
+    .clear-filters:hover {
+        text-decoration: underline;
+    }
+    .filter-section {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+    .filter-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    .filter-section h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+    .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .filter-option a {
+        color: #333;
+        text-decoration: none;
+        padding: 5px 0;
+        display: block;
+    }
+    .filter-option a:hover {
+        color: #007bff;
+    }
+    .filter-option a.active {
+        color: #007bff;
+        font-weight: bold;
+    }
+    .price-inputs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    .price-input {
+        flex: 1;
+    }
+    .price-input label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+    .price-input input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .apply-price {
+        width: 100%;
+        padding: 8px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .apply-price:hover {
+        background-color: #0069d9;
+    }
+    .products-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .products-header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+    .sort-options {
+        display: flex;
+        align-items: center;
+    }
+    .sort-options label {
+        margin-right: 10px;
+    }
+    .sort-options select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: white;
+    }
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .product-card {
+        border: 1px solid #eee;
+        border-radius: 5px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .product-card a {
+        text-decoration: none;
+        color: inherit;
+    }
+    .product-image {
+        height: 200px;
+        background-color: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .no-image {
+        color: #999;
+    }
+    .product-info {
+        padding: 15px;
+    }
+    .product-info h3 {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+    }
+    .product-category {
+        color: #666;
+        margin: 0 0 10px 0;
+        font-size: 14px;
+    }
+    .product-price {
+        font-weight: bold;
+        margin: 0;
+        font-size: 18px;
+    }
+    .add-to-cart-btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .add-to-cart-btn:hover {
+        background-color: #0069d9;
+    }
+    .pagination {
+        margin-top: 30px;
+        text-align: center;
+    }
+    .pagination a {
+        color: #007bff;
+        padding: 8px 12px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+        margin: 0 4px;
+    }
+    .pagination a:hover {
+        background-color: #f5f5f5;
+    }
+    .pagination .current {
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+        margin: 0 4px;
+    }
+    .no-products {
+        text-align: center;
+        padding: 40px 0;
+        color: #666;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+        
+        addToCartBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+                
+                // Send AJAX request to add item to cart
+                fetch(`/clothes/add_to_cart/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ quantity: 1 })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Item added to cart!');
+                        // Update cart count if needed
+                        // updateCartCount();
+                    } else {
+                        alert(data.error || 'Failed to add item to cart');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            });
+        });
+        
+        // Helper function to get CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    });
+</script>
+{% endblock %} 

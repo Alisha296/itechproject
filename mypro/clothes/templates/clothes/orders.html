@@ -1,0 +1,122 @@
+{% extends 'clothes/base.html' %}
+{% load static %}
+
+{% block title %}My Orders - The Fashion Atelier{% endblock %}
+
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-lg-3">
+            <!-- Profile sidebar -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <div class="profile-icon mb-3">
+                        <i class="fas fa-user-circle fa-5x text-gold"></i>
+                    </div>
+                    <h5 class="mb-0">{{ user.get_full_name }}</h5>
+                    <p class="text-muted small">Member since {{ user.date_joined|date:"F Y" }}</p>
+                    <hr>
+                    <div class="list-group list-group-flush">
+                        <a href="{% url 'clothes:user_profile' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user-cog fa-fw me-2"></i> Profile Settings
+                        </a>
+                        <a href="{% url 'clothes:user_orders' %}" class="list-group-item list-group-item-action active">
+                            <i class="fas fa-shopping-bag fa-fw me-2"></i> My Orders
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <i class="fas fa-heart fa-fw me-2"></i> Wishlist
+                        </a>
+                        <a href="{% url 'clothes:logout' %}" class="list-group-item list-group-item-action text-danger">
+                            <i class="fas fa-sign-out-alt fa-fw me-2"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-9">
+            <!-- Orders content -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">My Orders</h4>
+                </div>
+                <div class="card-body">
+                    {% if orders %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td>{{ order.order_number }}</td>
+                                        <td>{{ order.created_at|date:"d M Y" }}</td>
+                                        <td>
+                                            <span class="badge 
+                                                {% if order.status == 'completed' %}bg-success
+                                                {% elif order.status == 'processing' %}bg-warning
+                                                {% elif order.status == 'shipped' %}bg-info
+                                                {% else %}bg-secondary{% endif %}">
+                                                {{ order.get_status_display }}
+                                            </span>
+                                        </td>
+                                        <td>£{{ order.total|floatformat:2 }}</td>
+                                        <td>
+                                            <a href="{% url 'clothes:order_detail' order.id %}" class="btn btn-sm btn-outline-primary">
+                                                Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <div class="mb-4">
+                                <i class="fas fa-shopping-bag fa-4x text-muted"></i>
+                            </div>
+                            <h5>No orders yet</h5>
+                            <p class="text-muted">You haven't placed any orders yet.</p>
+                            <a href="{% url 'clothes:products' %}" class="btn btn-gold mt-3">
+                                Browse Products
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-icon {
+        color: var(--gold);
+    }
+    
+    .list-group-item.active {
+        background-color: var(--gold);
+        border-color: var(--gold);
+    }
+    
+    .list-group-item-action:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .card-header h4 {
+        color: var(--gold);
+    }
+    
+    .badge {
+        font-weight: 500;
+        padding: 0.5em 0.75em;
+    }
+</style>
+{% endblock %} 

@@ -1,0 +1,194 @@
+{% extends 'clothes/base.html' %}
+
+{% block content %}
+<div class="order-detail">
+    <div class="order-header">
+        <h1>Order #{{ order.id }}</h1>
+        <span class="status-badge status-{{ order.status }}">{{ order.get_status_display }}</span>
+    </div>
+    
+    <div class="order-meta">
+        <p><strong>Order Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}</p>
+        <p><strong>Payment Method:</strong> {{ order.get_payment_method_display }}</p>
+        <p><strong>Payment Status:</strong> {% if order.payment_completed %}Paid{% else %}Pending{% endif %}</p>
+    </div>
+    
+    <div class="order-sections">
+        <div class="shipping-info">
+            <h2>Shipping Information</h2>
+            <p><strong>Name:</strong> {{ order.full_name }}</p>
+            <p><strong>Email:</strong> {{ order.email }}</p>
+            <p><strong>Phone:</strong> {{ order.phone }}</p>
+            <p><strong>Address:</strong> {{ order.address }}</p>
+            <p>{{ order.city }}, {{ order.state }} {{ order.zipcode }}</p>
+        </div>
+        
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span>${{ order.total_amount|floatformat:2 }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping:</span>
+                <span>Free</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span>${{ order.total_amount|floatformat:2 }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="order-items">
+        <h2>Order Items</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order_items %}
+                    <tr>
+                        <td>
+                            <div class="item-info">
+                                {% if item.clothing.image_url %}
+                                    <img src="{{ item.clothing.image_url }}" alt="{{ item.clothing.name }}" class="item-image">
+                                {% endif %}
+                                <div>
+                                    <h3>{{ item.clothing.name }}</h3>
+                                    <p>{{ item.clothing.category|capfirst }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>${{ item.price|floatformat:2 }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price|floatformat:2|multiply:item.quantity }}</td>
+                    </tr>
+                {% endfor %}
+                <tr class="order-total">
+                    <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                    <td><strong>${{ order.total_amount|floatformat:2 }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="order-actions">
+        <a href="{% url 'clothes:order_history' %}" class="btn">Back to Order History</a>
+        <a href="{% url 'clothes:all_products' %}" class="btn secondary">Continue Shopping</a>
+    </div>
+</div>
+
+<style>
+    .order-detail {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    .order-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .order-header h1 {
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+    .status-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .status-pending {
+        background-color: #ffeeba;
+        color: #856404;
+    }
+    .status-processing {
+        background-color: #bee5eb;
+        color: #0c5460;
+    }
+    .status-shipped {
+        background-color: #c3e6cb;
+        color: #155724;
+    }
+    .status-delivered {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .status-cancelled {
+        background-color: #f5c6cb;
+        color: #721c24;
+    }
+    .order-meta {
+        margin-bottom: 30px;
+    }
+    .order-sections {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+    }
+    @media (max-width: 768px) {
+        .order-sections {
+            grid-template-columns: 1fr;
+        }
+    }
+    .shipping-info, .order-summary {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 5px;
+    }
+    .item-info {
+        display: flex;
+        align-items: center;
+    }
+    .item-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        margin-right: 15px;
+        border-radius: 4px;
+    }
+    .item-info h3 {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+    }
+    .item-info p {
+        margin: 0;
+        color: #666;
+    }
+    .order-total {
+        background-color: #f9f9f9;
+    }
+    .text-right {
+        text-align: right;
+    }
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .summary-row.total {
+        font-weight: bold;
+        font-size: 18px;
+        border-bottom: none;
+    }
+    .order-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+    }
+    .btn.secondary {
+        background-color: #6c757d;
+    }
+</style>
+{% endblock %} 

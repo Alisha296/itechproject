@@ -1,0 +1,93 @@
+{% extends 'clothes/base.html' %}
+
+{% block content %}
+<h1>My Order History</h1>
+
+{% if orders %}
+    <div class="order-history">
+        <table>
+            <thead>
+                <tr>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Payment Method</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            <span class="status-badge status-{{ order.status }}">
+                                {{ order.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ order.get_payment_method_display }}</td>
+                        <td>${{ order.total_amount|floatformat:2 }}</td>
+                        <td>
+                            <a href="{% url 'clothes:order_detail' order.id %}" class="btn-small">View Details</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <a href="{% url 'clothes:all_products' %}" class="btn">Continue Shopping</a>
+{% else %}
+    <div class="empty-history">
+        <p>You haven't placed any orders yet.</p>
+        <a href="{% url 'clothes:all_products' %}" class="btn">Start Shopping</a>
+    </div>
+{% endif %}
+
+<style>
+    .order-history {
+        margin-bottom: 30px;
+    }
+    .status-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .status-pending {
+        background-color: #ffeeba;
+        color: #856404;
+    }
+    .status-processing {
+        background-color: #bee5eb;
+        color: #0c5460;
+    }
+    .status-shipped {
+        background-color: #c3e6cb;
+        color: #155724;
+    }
+    .status-delivered {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .status-cancelled {
+        background-color: #f5c6cb;
+        color: #721c24;
+    }
+    .btn-small {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 3px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .empty-history {
+        text-align: center;
+        padding: 50px 0;
+    }
+</style>
+{% endblock %} 

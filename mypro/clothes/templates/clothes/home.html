@@ -1,0 +1,261 @@
+{% extends 'clothes/base.html' %}
+{% load static %}
+
+{% block title %}The Fashion Atelier - Luxury Fashion{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('{% static 'clothes/images/hero-bg.jpg' %}');">
+    <div class="hero-bg"></div>
+    <div class="container">
+        <div class="hero-content text-center">
+            <h1 class="display-4 mb-4">Discover Timeless Elegance</h1>
+            <p class="lead mb-4">The Fashion Atelier brings you curated collections of premium clothing and accessories</p>
+            <a href="{% url 'clothes:products' %}" class="btn btn-gold">Shop Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- Brand Highlights -->
+<section class="py-4 bg-white" style="margin-top: -80px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="card border-0 shadow-lg py-5">
+                    <div class="row text-center g-0">
+                        <div class="col-md-3 px-3">
+                            <div>
+                                <i class="fas fa-shipping-fast fa-2x gold-text mb-3"></i>
+                                <h5>Free Shipping</h5>
+                                <p class="text-muted small">On orders over $100</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 px-3 border-start">
+                            <div>
+                                <i class="fas fa-redo fa-2x gold-text mb-3"></i>
+                                <h5>Easy Returns</h5>
+                                <p class="text-muted small">30-day return policy</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 px-3 border-start">
+                            <div>
+                                <i class="fas fa-gift fa-2x gold-text mb-3"></i>
+                                <h5>Gift Wrapping</h5>
+                                <p class="text-muted small">Luxury presentation</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 px-3 border-start">
+                            <div>
+                                <i class="fas fa-headset fa-2x gold-text mb-3"></i>
+                                <h5>24/7 Support</h5>
+                                <p class="text-muted small">Always here to help</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Shop by Category</h2>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-4 mb-4">
+                <div class="category-card">
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}" class="img-fluid">
+                    <div class="category-overlay">
+                        <h3>{{ category.name }}</h3>
+                        <a href="{% url 'clothes:products' %}?category={{ category.id }}" class="btn btn-outline-light">Explore</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Products</h2>
+        <div class="row">
+            {% for product in featured_products %}
+            <div class="col-md-3 mb-4">
+                <div class="card product-card">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="price">£{{ product.price }}</p>
+                        <a href="{% url 'clothes:product_detail' product.id %}" class="btn btn-outline-dark w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Testimonial Section -->
+<section class="py-5 mb-5">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h6 class="text-uppercase gold-text fw-bold mb-2">What Our Customers Say</h6>
+                <h2 class="display-5 fw-bold mb-5">Testimonials</h2>
+                <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="testimonial-item p-4">
+                                <div class="mb-4">
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                </div>
+                                <p class="fs-5 fst-italic mb-4">"The quality of their clothes is exceptional. I've received so many compliments on my new dress. Will definitely shop here again!"</p>
+                                <h5 class="gold-text">Emma Thompson</h5>
+                                <p class="text-muted small">Fashion Enthusiast</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="testimonial-item p-4">
+                                <div class="mb-4">
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                </div>
+                                <p class="fs-5 fst-italic mb-4">"Fast shipping and the packaging was beautiful. The attention to detail is what sets The Fashion Atelier apart."</p>
+                                <h5 class="gold-text">Michael Carter</h5>
+                                <p class="text-muted small">Loyal Customer</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="testimonial-item p-4">
+                                <div class="mb-4">
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                    <i class="fas fa-star gold-text"></i>
+                                </div>
+                                <p class="fs-5 fst-italic mb-4">"Their customer service is impeccable. Had a small issue with sizing and they resolved it immediately. Highly recommend!"</p>
+                                <h5 class="gold-text">Sophia Rodriguez</h5>
+                                <p class="text-muted small">Style Blogger</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button class="btn btn-sm btn-outline-dark mx-1" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-dark mx-1" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Instagram Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h6 class="text-uppercase gold-text fw-bold mb-2">Follow Us</h6>
+            <h2 class="display-5 fw-bold">@TheFashionAtelier</h2>
+            <div class="divider-gold mx-auto my-4"></div>
+        </div>
+        <div class="row g-2">
+            <div class="col-4 col-md-2">
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="img-fluid" alt="Instagram">
+                </div>
+            </div>
+            <div class="col-4 col-md-2">
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1475180098004-ca77a66827be?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="img-fluid" alt="Instagram">
+                </div>
+            </div>
+            <div class="col-4 col-md-2">
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="img-fluid" alt="Instagram">
+                </div>
+            </div>
+            <div class="col-4 col-md-2">
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="img-fluid" alt="Instagram">
+                </div>
+            </div>
+            <div class="col-4 col-md-2">
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="img-fluid" alt="Instagram">
+                </div>
+            </div>
+            <div class="col-4 col-md-2">
+                <div class="instagram-item">
+                    <img src="https://images.unsplash.com/photo-1475180410177-7053de4f52df?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="img-fluid" alt="Instagram">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h3 class="mb-4">Subscribe to Our Newsletter</h3>
+                <p class="mb-4">Stay updated with our latest collections and exclusive offers</p>
+                <form class="d-flex gap-2">
+                    <input type="email" class="form-control" placeholder="Enter your email">
+                    <button type="submit" class="btn btn-gold">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.divider-gold {
+    height: 3px;
+    width: 70px;
+    background: var(--gold-glitter);
+}
+.hero-section {
+    overflow: hidden;
+}
+.hero-bg {
+    transition: transform 15s ease;
+}
+.hero-section:hover .hero-bg {
+    transform: scale(1.1);
+}
+.instagram-item {
+    overflow: hidden;
+    position: relative;
+}
+.instagram-item img {
+    transition: transform 0.6s ease;
+    height: 100%;
+    object-fit: cover;
+}
+.instagram-item:hover img {
+    transform: scale(1.1);
+}
+.testimonial-item {
+    max-width: 700px;
+    margin: 0 auto;
+}
+</style>
+{% endblock %} 

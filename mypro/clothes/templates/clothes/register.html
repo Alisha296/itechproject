@@ -1,0 +1,288 @@
+{% extends 'clothes/base.html' %}
+
+{% block content %}
+<div class="register-container">
+    <h1>Create an Account</h1>
+    <p class="register-intro">Sign up to track your orders, manage your wishlist, and get personalized recommendations.</p>
+    
+    <form method="post" class="register-form">
+        {% csrf_token %}
+        
+        {% if user_form.non_field_errors %}
+        <div class="form-errors">
+            {% for error in user_form.non_field_errors %}
+                <p class="error-message">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="form-group">
+            <label for="{{ user_form.username.id_for_label }}">Username</label>
+            {{ user_form.username }}
+            {% if user_form.username.errors %}
+                <div class="field-errors">
+                    {% for error in user_form.username.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ user_form.first_name.id_for_label }}">First Name</label>
+            {{ user_form.first_name }}
+            {% if user_form.first_name.errors %}
+                <div class="field-errors">
+                    {% for error in user_form.first_name.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ user_form.last_name.id_for_label }}">Last Name</label>
+            {{ user_form.last_name }}
+            {% if user_form.last_name.errors %}
+                <div class="field-errors">
+                    {% for error in user_form.last_name.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ user_form.email.id_for_label }}">Email</label>
+            {{ user_form.email }}
+            {% if user_form.email.errors %}
+                <div class="field-errors">
+                    {% for error in user_form.email.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ user_form.password1.id_for_label }}">Password</label>
+            {{ user_form.password1 }}
+            {% if user_form.password1.errors %}
+                <div class="field-errors">
+                    {% for error in user_form.password1.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="password-hints">
+                <ul>
+                    <li>Your password can't be too similar to your other personal information.</li>
+                    <li>Your password must contain at least 8 characters.</li>
+                    <li>Your password can't be a commonly used password.</li>
+                    <li>Your password can't be entirely numeric.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ user_form.password2.id_for_label }}">Confirm Password</label>
+            {{ user_form.password2 }}
+            {% if user_form.password2.errors %}
+                <div class="field-errors">
+                    {% for error in user_form.password2.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <h3 class="profile-heading">Shipping Information</h3>
+        
+        <div class="form-group">
+            <label for="{{ profile_form.address.id_for_label }}">Address</label>
+            {{ profile_form.address }}
+            {% if profile_form.address.errors %}
+                <div class="field-errors">
+                    {% for error in profile_form.address.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ profile_form.city.id_for_label }}">City</label>
+            {{ profile_form.city }}
+            {% if profile_form.city.errors %}
+                <div class="field-errors">
+                    {% for error in profile_form.city.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ profile_form.state.id_for_label }}">State/Province</label>
+            {{ profile_form.state }}
+            {% if profile_form.state.errors %}
+                <div class="field-errors">
+                    {% for error in profile_form.state.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ profile_form.zipcode.id_for_label }}">Postal Code</label>
+            {{ profile_form.zipcode }}
+            {% if profile_form.zipcode.errors %}
+                <div class="field-errors">
+                    {% for error in profile_form.zipcode.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ profile_form.phone.id_for_label }}">Phone Number</label>
+            {{ profile_form.phone }}
+            {% if profile_form.phone.errors %}
+                <div class="field-errors">
+                    {% for error in profile_form.phone.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="register-btn">Create Account</button>
+        
+        <div class="login-link">
+            Already have an account? <a href="{% url 'clothes:login' %}">Login here</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .register-container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .register-container h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .register-intro {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    .profile-heading {
+        margin-top: 25px;
+        margin-bottom: 20px;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+        color: #333;
+        font-size: 1.3rem;
+    }
+    
+    .register-form {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-errors {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    
+    .field-errors {
+        color: #dc3545;
+        margin-top: 5px;
+        font-size: 14px;
+    }
+    
+    .error-message {
+        margin: 0;
+    }
+    
+    .password-hints {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #666;
+    }
+    
+    .password-hints ul {
+        padding-left: 20px;
+        margin: 5px 0 0;
+    }
+    
+    .password-hints li {
+        margin-bottom: 3px;
+    }
+    
+    .register-btn {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+    }
+    
+    .register-btn:hover {
+        background-color: var(--primary-dark);
+    }
+    
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+    }
+    
+    .login-link a {
+        color: var(--primary);
+        text-decoration: none;
+    }
+    
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %} 

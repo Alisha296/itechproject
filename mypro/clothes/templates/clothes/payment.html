@@ -1,0 +1,65 @@
+{% extends 'clothes/base.html' %}
+{% load static %}
+
+{% block title %}Processing Payment - The Fashion Atelier{% endblock %}
+
+{% block content %}
+<!-- Payment Processing Section -->
+<section class="py-5 mt-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card shadow-sm p-5 text-center">
+                    <div class="mb-4">
+                        <div class="spinner-border text-gold" role="status" style="width: 4rem; height: 4rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <h2 class="mb-4">Processing Your Payment</h2>
+                    <p class="mb-5">Please wait while we process your payment. Do not close this page or refresh your browser.</p>
+                    
+                    <div class="progress mb-4">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-gold" role="progressbar" style="width: 0%" id="progressBar"></div>
+                    </div>
+                    
+                    <p class="text-muted" id="processingStep">Initializing payment...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Simulate payment processing
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBar = document.getElementById('progressBar');
+        const processingStep = document.getElementById('processingStep');
+        const steps = [
+            'Initializing payment...',
+            'Verifying payment details...',
+            'Processing transaction...',
+            'Finalizing order...',
+            'Redirecting to confirmation page...'
+        ];
+        
+        let progress = 0;
+        const interval = setInterval(function() {
+            progress += 20;
+            progressBar.style.width = progress + '%';
+            
+            const stepIndex = Math.floor(progress / 20) - 1;
+            if (stepIndex >= 0 && stepIndex < steps.length) {
+                processingStep.textContent = steps[stepIndex];
+            }
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                // Redirect to confirmation page after 1 second
+                setTimeout(function() {
+                    window.location.href = '{% url "clothes:order_confirmation" %}';
+                }, 1000);
+            }
+        }, 1000);
+    });
+</script>
+{% endblock %} 
