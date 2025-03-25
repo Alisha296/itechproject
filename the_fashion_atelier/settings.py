@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-lk(5ics*m+b9r%3)krw6%c0=)!2^2l^l-(og31a5c=g!(k4v07'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = True
 
-ALLOWED_HOSTS = ['the-fashion-atelier.appspot.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -121,13 +121,6 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'clothes' / 'static',
 ]
-
-# Media files with Google Cloud Storage
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'your-bucket-name'  # Create this in GCP
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    BASE_DIR / 'path-to-your-service-account-key.json'
-)
 
 # Media files
 MEDIA_URL = '/media/'
