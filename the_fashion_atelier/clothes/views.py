@@ -185,7 +185,7 @@ def logout_view(request):
 @login_required
 def user_profile(request):
     user = request.user
-    profile = user.userprofile
+    profile, created = UserProfile.objects.get_or_create(user=user)
     
     if request.method == 'POST':
         user_form = RegistrationForm(request.POST, instance=user)
