@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-print(BASE_DIR)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -23,9 +23,9 @@ print(BASE_DIR)
 SECRET_KEY = 'django-insecure-lk(5ics*m+b9r%3)krw6%c0=)!2^2l^l-(og31a5c=g!(k4v07'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['the-fashion-atelier.appspot.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -122,6 +122,13 @@ STATICFILES_DIRS = [
     BASE_DIR / 'clothes' / 'static',
 ]
 
+# Media files with Google Cloud Storage
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'your-bucket-name'  # Create this in GCP
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    BASE_DIR / 'path-to-your-service-account-key.json'
+)
+
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR /'the_fashion_atelier' / 'media'
@@ -135,3 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'clothes:login'
 LOGIN_REDIRECT_URL = 'clothes:home'
 LOGOUT_REDIRECT_URL = 'clothes:home'
+
+# Security settings for production
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
